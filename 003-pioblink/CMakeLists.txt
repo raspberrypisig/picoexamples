@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.12)
 
-include(pico_sdk_import.cmake)
+get_filename_component(PICOSDKIMPORT ${CMAKE_SOURCE_DIR} DIRECTORY)
+
+include(${PICOSDKIMPORT}/001-include/pico_sdk_import.cmake)
 
 get_filename_component(THISPROJECTNAME ${CMAKE_SOURCE_DIR} NAME)
 
@@ -17,6 +19,4 @@ add_executable(${PROJECT_NAME}
 pico_add_extra_outputs(${PROJECT_NAME})
 
 target_link_libraries(${PROJECT_NAME} pico_stdlib)
-
-
 
