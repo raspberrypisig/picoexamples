@@ -4,8 +4,8 @@ const uint LED_PIN = 25;
 
 int main() {
 
-    bi_decl(bi_program_description("First Blink"));
-    bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
+    //bi_decl(bi_program_description("First Blink"));
+    //bi_decl(bi_1pin_with_name(LED_PIN, "On-board LED"));
 
     gpio_init(LED_PIN);
     gpio_set_dir(LED_PIN, GPIO_OUT);

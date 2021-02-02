@@ -1,0 +1,5 @@
+.program blink
+.wrap_target
+side(1)
+side(0)
+.wrap
