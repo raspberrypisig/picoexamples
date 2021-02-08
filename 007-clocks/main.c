@@ -24,6 +24,8 @@ void measure_freqs(void) {
 
 int main() {
     stdio_init_all();
+     
+    sleep_ms(10000); 
 
     printf("Hello, world!\n");
 

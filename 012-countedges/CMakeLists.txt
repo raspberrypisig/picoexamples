@@ -24,11 +24,8 @@ pico_add_extra_outputs(${PROJECT_NAME})
 
 target_link_libraries(${PROJECT_NAME} 
     pico_stdlib
-    hardware_pll
-    hardware_clocks
-    
+    hardware_pwm
 )
-
 
 
 

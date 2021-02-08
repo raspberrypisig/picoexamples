@@ -1,0 +1,11 @@
+Hello, world!
+pll_sys= 125000kHz
+pll_usb= 48000kHz
+rosc= 4997kHz
+clk_sys= 125000kHz
+clk_peri = 125001kHz
+clk_usb= 48000kHz
+clk_adc= 48000kHz
+clk_rtc= 46kHz
+
+
