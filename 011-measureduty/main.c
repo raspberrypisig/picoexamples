@@ -1,5 +1,10 @@
 #include "main.h"
 
+void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) { 
+  reset_usb_boot(0, 0); 
+} // go to flash mode
+
+
 // This example drives a PWM output at a range of duty cycles, and uses
 // another PWM slice in input mode to measure the duty cycle. You'll need to
 // connect these two pins with a jumper wire:
@@ -37,7 +42,7 @@ const float test_duty_cycles[] = {
 
 int main() {
   stdio_init_all();
-
+  tud_cdc_set_wanted_char('\0');
   //gpio_init(OUTPUT_PIN);
   //gpio_set_dir(OUTPUT_PIN, GPIO_OUT);
   //gpio_put(OUTPUT_PIN, 1);

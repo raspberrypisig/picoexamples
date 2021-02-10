@@ -5,3 +5,5 @@
 #include "hardware/clocks.h"
 
 #include <stdio.h>
+#include "pico/bootrom.h"
+#include <tusb.h>
