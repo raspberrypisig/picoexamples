@@ -39,6 +39,10 @@ void setup();
 void sample(uint8_t *capture_buf);
 
 int main() {
+  stdio_init_all();
+  sleep_ms(10000);
+  tud_cdc_set_wanted_char('\0');
+
   uint8_t cap_buf[NSAMP];
   kiss_fft_scalar fft_in[NSAMP]; // kiss_fft_scalar is a float
   kiss_fft_cpx fft_out[NSAMP];

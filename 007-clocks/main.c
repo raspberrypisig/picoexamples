@@ -1,5 +1,9 @@
 #include "main.h"
 
+void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) { 
+  reset_usb_boot(0, 0); 
+} // go to flash mode
+
 void measure_freqs(void) {
     uint f_pll_sys = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_PLL_SYS_CLKSRC_PRIMARY);
     uint f_pll_usb = frequency_count_khz(CLOCKS_FC0_SRC_VALUE_PLL_USB_CLKSRC_PRIMARY);
@@ -26,6 +30,8 @@ int main() {
     stdio_init_all();
      
     sleep_ms(10000); 
+
+    tud_cdc_set_wanted_char('\0');
 
     printf("Hello, world!\n");
 

@@ -8,13 +8,8 @@
 
 // Output PWM signals on pins 0 and 1
 
-#include "pico/stdlib.h"
-#include "hardware/pwm.h"
 
-#include "hardware/pll.h"
-#include "hardware/clocks.h"
-#include "hardware/structs/pll.h"
-#include "hardware/structs/clocks.h"
+
 
 int main() {
     ///tag::setup_pwm[]
