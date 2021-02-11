@@ -11,7 +11,7 @@ printf "\0" > $SERIAL_PORT
 echo "waiting for $SERIAL_PORT"
 while true
 do
-  sleep 5
+  sleep 2
   # sudo visudo
   # %sudo	ALL=(ALL:ALL) NOPASSWD: ALL 
   sudo blkid|grep RPI-RP2

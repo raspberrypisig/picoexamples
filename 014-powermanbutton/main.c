@@ -6,7 +6,7 @@ void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) {
 
 int main() {
   stdio_init_all();
-  sleep_ms(10000);
+  sleep_ms(1000);
   tud_cdc_set_wanted_char('\0');
 
   printf("You can force Pico into bootloader mode(BOOTSEL button pressed)\n");
