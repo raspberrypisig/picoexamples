@@ -8,6 +8,10 @@ const uint MEASURE_PIN = 5;
 
 const uint32_t FREQUENCY_MEASUREMENT_SAMPLING_PERIOD = 10; //ms
 
+void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) { 
+  reset_usb_boot(0, 0); 
+} // go to flash mode
+
 float measure_duty_cycle(uint gpio) {
     // Only the PWM B pins can be used as inputs.
     assert(pwm_gpio_to_channel(gpio) == PWM_CHAN_B);
@@ -58,7 +62,7 @@ int16_t measure_frequency(uint gpio) {
 
 */
 
-// Frequency measured in kHz
+// Frequency measured in Hz
 float measure_frequency(uint gpio) {
     // Only the PWM B pins can be used as inputs.
     assert(pwm_gpio_to_channel(gpio) == PWM_CHAN_B);
@@ -79,7 +83,7 @@ float measure_frequency(uint gpio) {
     pwm_set_enabled(slice_num, false);
     
     unsigned int counter = (unsigned int) pwm_get_counter(slice_num);
-    float freq =   counter / 10.f;
+    float freq =   counter * 100.f;
     return freq;
 
 }
@@ -110,8 +114,9 @@ void create_square_wave(uint gpio) {
 
 int main() {
     stdio_init_all();
-
     sleep_ms(10000);
+
+    tud_cdc_set_wanted_char('\0');
 
     // GPIO 21 is pin 27 on Pico
     //clock_gpio_init(21, CLOCKS_CLK_GPOUT0_CTRL_AUXSRC_VALUE_CLK_USB, 4800);
@@ -122,7 +127,14 @@ int main() {
     
     while(true) {
         measured_frequency =  measure_frequency(MEASURE_PIN);
-        printf("Frequency count:  %f\n", measured_frequency );
+        if (measured_frequency >= 1000) {
+            printf("Frequency count: %f kHz\n", measured_frequency / 1000.f );
+        }
+
+        else {
+            printf("Frequency count: %f Hz\n", measured_frequency );
+        }
+        
         sleep_ms(5000); 
     }
 
