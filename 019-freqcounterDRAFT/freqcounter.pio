@@ -22,6 +22,7 @@ next:
 ; end countedges program
       
 .program referencetimer
+      PULL
       OUT X 32
       WAIT 0 PIN 0
       WAIT 0 PIN 1
