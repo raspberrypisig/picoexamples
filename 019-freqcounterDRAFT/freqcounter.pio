@@ -49,6 +49,16 @@ end:
       JMP end
       
       
+% c-sdk {
 
+static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    pio_sm_config c = countedges_program_get_default_config(offset);
+}
+
+static inline void referencetimer_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    pio_sm_config c = hello_program_get_default_config(offset);
+}
+
+}
       
 
