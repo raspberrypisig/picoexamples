@@ -24,9 +24,8 @@ next:
 % c-sdk {
 static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint pin) {
     pio_sm_config c = countedges_program_get_default_config(offset);
-    //sm_config_set_set_pins(&c, pin, 1);
-    //sm_config_set_in_pins(&c, pin + 2, 1);
-    sm_config_set_jmp_pins(&c, pin + 2 ,1);
+    sm_config_set_in_pins(&c, pin + 2, 1);
+    sm_config_set_jmp_pins(&c, pin + 1 ,1);
     //pio_gpio_init(pio, pin);
     
     
@@ -64,7 +63,8 @@ end:
 % c-sdk {
 static inline void referencetimer_program_init(PIO pio, uint sm, uint offset, uint pin) {
     pio_sm_config c = referencetimer_program_get_default_config(offset);
-    sm_config_set_jmp_pins(&c, pin + 1 ,1);
+    sm_config_set_jmp_pins(&c, pin + 2 ,1);
+    sm_config_set_in_pins(&c, pin + 2, 1);
 }
 %}
       
