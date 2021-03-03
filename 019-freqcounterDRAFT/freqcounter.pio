@@ -1,0 +1,53 @@
+
+.program countedges
+
+; gpio 10 : out pin used by state machine
+; gpio 11 : in pin used by state machine
+; gpio 12 : input signal to measure frequency of
+; jumper gpio 10 and 11
+
+; start countedges program
+      MOV X ~NULL
+loop:
+      WAIT 0 PIN 0
+      WAIT 1 PIN 0
+      JMP X-- next
+next:
+      JMP PIN loop
+      IN X 32
+      PUSH
+.wrap_target:
+      NOP
+.wrap
+; end countedges program
+      
+.program referencetimer
+      OUT X 32
+      WAIT 0 PIN 0
+      WAIT 0 PIN 1
+loop:
+      JMP X-- loop
+      SET PINS 0
+      MOV X ~NULL
+      JMP next
+isOne:
+      JMP X-- next
+next:
+      JMP PIN isOne
+
+.wrap_target:
+      JMP X-- isDone
+isDone:
+      JMP PIN done
+.wrap
+      
+done:
+      IN X 32
+      PUSH
+end:
+      JMP end
+      
+      
+
+      
+
