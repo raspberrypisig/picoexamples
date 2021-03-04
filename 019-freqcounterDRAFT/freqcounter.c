@@ -21,4 +21,6 @@ int main() {
     
     countedges_program_init(pio, sm0, offset1, PIN_BASE);
     referencetimer_program_init(pio, sm1, offset2, PIN_BASE);
+    
+    pio_enable_sm_mask_in_sync(pio, 3);
 }
