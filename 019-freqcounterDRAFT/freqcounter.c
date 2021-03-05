@@ -2,6 +2,7 @@ int main() {
     // Choose which PIO instance to use (there are two instances)
     PIO pio = pio0;
     uint PIN_BASE = 10;
+    uint32_t REFERENCE_FREQ = 125000000;
 
     // Our assembled program needs to be loaded into this PIO's instruction
     // memory. This SDK function will find a location (offset) in the
@@ -21,6 +22,12 @@ int main() {
     
     countedges_program_init(pio, sm0, offset1, PIN_BASE);
     referencetimer_program_init(pio, sm1, offset2, PIN_BASE);
-    pio_sm_put_blocking(pio, sm1, 125000000);
+    pio_sm_put_blocking(pio, sm1, REFERENCE_FREQ);
     pio_enable_sm_mask_in_sync(pio, 3);
+    sleep_ms(2500);
+    uint32_t countedges = pio_sm_get(pio, sm0);
+    uint32_t extrapulsesreference = pio_sm_get(pio, sm1);
+    uint32_t totalpulsesreference = REFERENCE_FREQ + 2*extrapulsesreference;
+    double freq = (countedges + 1) * REFERENCE_FREQ/totalpulsesreference;
+    
 }
