@@ -23,6 +23,7 @@ int main() {
     sleep_ms(2000);
     printf("Starting program...\n");
     
+    //float freq = 50.2;
     float freq = 50.8;
   
     createSquareWave(freq);  
