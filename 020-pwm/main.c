@@ -11,7 +11,7 @@ void createSquareWave(float freq) {
     gpio_set_function(SQUAREWAVE_PIN, GPIO_FUNC_PWM);
     uint slice_num = pwm_gpio_to_slice_num(SQUAREWAVE_PIN);
     pwm_set_clkdiv(slice_num, 16.f);
-    uint16_t wrap = (uint16_t) ((48000000/16) / freq)
+    uint16_t wrap = (uint16_t) ((48000000/16) / freq);
     pwm_set_wrap(slice_num, wrap - 1 );
     pwm_set_chan_level(slice_num, PWM_CHAN_A, (wrap - 1)/2);
     pwm_set_enabled(slice_num, true);
