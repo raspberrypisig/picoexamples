@@ -1,0 +1,21 @@
+.program countedges
+
+MOV X ~NULL
+loop:
+    WAIT 0 PIN 0
+    WAIT 1 PIN 0
+    JMP X-- loop
+
+
+% c-sdk {
+static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    pio_sm_config c = countedges_program_get_default_config(offset);
+
+    sm_config_set_in_pins(&c, pin);
+    
+    // Load our configuration, and jump to the start of the program
+    pio_sm_init(pio, sm, offset, &c);
+    // Set the state machine running
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
