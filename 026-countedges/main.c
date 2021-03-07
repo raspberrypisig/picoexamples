@@ -10,6 +10,7 @@
 #define STATEMACHINE0_IN_PIN MEASURE_PIN
 #define STATEMACHINE1_IN_PIN MEASURE_PIN
 
+
 void tud_cdc_rx_wanted_cb(uint8_t itf, char wanted_char) { 
   reset_usb_boot(0, 0); 
 } // go to flash mode
@@ -35,20 +36,18 @@ void createSquareWave(float freq) {
 
 int main() {
   stdio_init_all();
-  sleep_ms(10000);
+  sleep_ms(1000);
   tud_cdc_set_wanted_char('\0');
   
   float freq = 50.8f;
   createSquareWave(freq);
 
   PIO pio = pio0;
-  uint offset = pio_add_program(pio, &countedges_program);
-  //printf("Program offset at: %d\n", offset);
-
+  
   uint32_t REFERENCE_FREQ = 125000000;
     
   uint offset1 = pio_add_program(pio, &countedges_program);
-  //uint offset2 = pio_add_program(pio, &referencetimer_program);
+  uint offset2 = pio_add_program(pio, &referencetimer_program);
 
   uint sm0 = 0;
   uint sm1 = 1;
@@ -56,13 +55,20 @@ int main() {
   pio_sm_claim(pio, sm0);
   pio_sm_claim(pio, sm1);
 
-  countedges_program_init(pio, sm0, offset, MEASURE_PIN);
-  sleep_ms(1000);
-  pio_sm_exec_wait_blocking(pio, sm0, pio_encode_mov_not(pio_isr, pio_x));
-  pio_sm_exec_wait_blocking(pio, sm0, pio_encode_push(false, false));
-  uint32_t num = pio_sm_get_blocking(pio, sm0);
+  countedges_program_init(pio, sm0, offset1, STATEMACHINE0_IN_PIN, STATEMACHINE0_JMP_PIN);
+  referencetimer_program_init(pio, sm1, offset2, STATEMACHINE1_IN_PIN, STATEMACHINE1_SET_PIN);
 
+  //pio_enable_sm_mask_in_sync(pio, 3);
+  pio_sm_set_enabled(pio, sm0, true);
+  pio_sm_put_blocking(pio, sm1, 125000000);
+  pio_sm_set_enabled(pio,sm1,true);
+  
+
+  //sleep_ms(3000);
+  uint32_t num = pio_sm_get_blocking(pio, sm0);
   printf("Num: %u\n", num);
+  //uint32_t num2 = pio_sm_get_blocking(pio, sm1);
+  //printf("Num2: %d\n", num2);
 
   while(true) {
     tight_loop_contents();
