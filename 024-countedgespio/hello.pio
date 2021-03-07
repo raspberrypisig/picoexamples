@@ -1,7 +1,9 @@
 .program countedges
 
+; x=2^32-1
 MOV X ~NULL
 loop:
+    ; wait for rising edge
     WAIT 0 PIN 0
     WAIT 1 PIN 0
     JMP X-- loop
