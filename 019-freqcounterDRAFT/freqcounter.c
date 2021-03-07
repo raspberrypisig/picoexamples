@@ -1,33 +1,33 @@
-int main() {
-    // Choose which PIO instance to use (there are two instances)
-    PIO pio = pio0;
-    uint PIN_BASE = 10;
-    uint32_t REFERENCE_FREQ = 125000000;
+#define MEASURE_PIN 4
+#define TEST_SQUAREWAVE_PIN 20
 
-    // Our assembled program needs to be loaded into this PIO's instruction
-    // memory. This SDK function will find a location (offset) in the
-    // instruction memory where there is enough space for our program. We need
-    // to remember this location!
-    //uint offset = pio_add_program(pio, &hello_program);
+//Jumper GPIO 14 and 15
+#define STATEMACHINE0_JMP_PIN 14
+#define STATEMACHINE1_SET_PIN 15
+
+#define STATEMACHINE0_IN_PIN MEASURE_PIN
+#define STATEMACHINE1_IN_PIN MEASURE_PIN
+
+int main() {
+    PIO pio = pio0;
+    uint32_t REFERENCE_FREQ = 125000000;
+    
     uint offset1 = pio_add_program(pio, &countedges_program);
     uint offset2 = pio_add_program(pio, &referencetimer_program);
 
-    // Find a free state machine on our chosen PIO (erroring if there are
-    // none). Configure it to run our program, and start it, using the
-    // helper function we included in our .pio file.
-    //uint sm = pio_claim_unused_sm(pio, true);
-    //hello_program_init(pio, sm, offset, PICO_DEFAULT_LED_PIN);
     uint sm0 = pio_claim_sm(pio, 0);
     uint sm1 = pio_claim_sm(pio, 1);
     
     countedges_program_init(pio, sm0, offset1, PIN_BASE);
     referencetimer_program_init(pio, sm1, offset2, PIN_BASE);
+    
     pio_sm_put_blocking(pio, sm1, REFERENCE_FREQ);
     pio_enable_sm_mask_in_sync(pio, 3);
+    
     sleep_ms(2500);
+    
     uint32_t countedges = pio_sm_get(pio, sm0);
     uint32_t extrapulsesreference = pio_sm_get(pio, sm1);
     uint32_t totalpulsesreference = REFERENCE_FREQ + 2*extrapulsesreference;
     double freq = (countedges + 1) * REFERENCE_FREQ/totalpulsesreference;
-    
 }
