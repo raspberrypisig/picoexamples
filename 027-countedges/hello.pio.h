@@ -11,22 +11,24 @@
 // ---------- //
 
 #define countedges_wrap_target 0
-#define countedges_wrap 4
+#define countedges_wrap 6
 
 static const uint16_t countedges_program_instructions[] = {
             //     .wrap_target
-    0x00c2, //  0: jmp    pin, 2                     
-    0x0000, //  1: jmp    0                          
-    0xe053, //  2: set    y, 19                      
-    0xa0c2, //  3: mov    isr, y                     
-    0x8020, //  4: push   block                      
+    0xa02b, //  0: mov    x, !null                   
+    0x2020, //  1: wait   0 pin, 0                   
+    0x20a0, //  2: wait   1 pin, 0                   
+    0x00c5, //  3: jmp    pin, 5                     
+    0x0041, //  4: jmp    x--, 1                     
+    0xa0c9, //  5: mov    isr, !x                    
+    0x8020, //  6: push   block                      
             //     .wrap
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program countedges_program = {
     .instructions = countedges_program_instructions,
-    .length = 5,
+    .length = 7,
     .origin = -1,
 };
 

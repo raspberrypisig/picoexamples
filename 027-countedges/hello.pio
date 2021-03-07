@@ -1,14 +1,15 @@
 .program countedges
 ;NOP
 ; X=2^32-1
-;MOV X ~NULL
+MOV X ~NULL
 
 loop:
+    WAIT 0 PIN 0
+    WAIT 1 PIN 0
     JMP PIN done
-    JMP loop
+    JMP X-- loop
 done:
-    SET Y 19
-    MOV ISR Y
+    MOV ISR ~X
     PUSH
 
 

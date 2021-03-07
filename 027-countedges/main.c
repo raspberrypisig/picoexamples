@@ -59,8 +59,8 @@ int main() {
   referencetimer_program_init(pio, sm1, offset2, STATEMACHINE1_IN_PIN, STATEMACHINE1_SET_PIN);
 
   //pio_enable_sm_mask_in_sync(pio, 3);
+  pio_sm_put_blocking(pio, sm1, 125000000);
   pio_sm_set_enabled(pio, sm0, true);
-  pio_sm_put_blocking(pio, sm1, 500000000);
   pio_sm_set_enabled(pio,sm1,true);
   
 
