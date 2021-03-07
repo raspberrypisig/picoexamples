@@ -26,6 +26,10 @@ int main() {
     
     sleep_ms(2500);
     
+    if (pio_sm_is_rx_fifo_empty(pio,sm0)) {
+        return 0;
+    }
+    
     uint32_t countedges = pio_sm_get(pio, sm0);
     uint32_t extrapulsesreference = pio_sm_get(pio, sm1);
     uint32_t totalpulsesreference = REFERENCE_FREQ + 2*extrapulsesreference;
