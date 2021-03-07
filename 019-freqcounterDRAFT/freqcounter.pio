@@ -1,20 +1,20 @@
 
 .program countedges
 
-; gpio 10 : out pin used by state machine
-; gpio 11 : in pin used by state machine
-; gpio 12 : input signal to measure frequency of
-; jumper gpio 10 and 11
+; need to jumper gpio 14 and 15
+; gpio 4 : out pin used by state machine
+; gpio 14 : jmp pin used by state machine 0 
+; gpio 15 : set pin used by state machine 1
 
 ; start countedges program
       MOV X ~NULL
 loop:
       WAIT 0 PIN 0
       WAIT 1 PIN 0
+      JMP PIN done
       JMP X-- next
-next:
-      JMP PIN loop
-      IN X 32
+done:
+      MOV ISR ~X
       PUSH
 .wrap_target:
       NOP
