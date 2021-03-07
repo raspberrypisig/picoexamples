@@ -18,8 +18,8 @@ int main() {
     uint sm0 = pio_claim_sm(pio, 0);
     uint sm1 = pio_claim_sm(pio, 1);
     
-    countedges_program_init(pio, sm0, offset1, PIN_BASE);
-    referencetimer_program_init(pio, sm1, offset2, PIN_BASE);
+    countedges_program_init(pio, sm0, offset1, STATEMACHINE0_IN_PIN, STATEMACHINE0_JMP_PIN);
+    referencetimer_program_init(pio, sm1, offset2, STATEMACHINE1_IN_PIN, STATEMACHINE1_SET_PIN);
     
     pio_sm_put_blocking(pio, sm1, REFERENCE_FREQ);
     pio_enable_sm_mask_in_sync(pio, 3);
