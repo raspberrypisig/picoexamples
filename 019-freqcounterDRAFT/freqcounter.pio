@@ -24,6 +24,7 @@ done:
 % c-sdk {
 static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint in_pin, uint jmp_pin) {
     pio_sm_config c = countedges_program_get_default_config(offset);
+    sm_config_set_out_shift(&c, true, true, 32);
     sm_config_set_in_pins(&c, in_pin, 1);
     sm_config_set_jmp_pins(&c, jmp_pin ,1);
     //pio_gpio_init(pio, pin);  
@@ -31,8 +32,7 @@ static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint i
 %}
  
 .program referencetimer
-      PULL
-      OUT X 32
+      MOV X OSR
       WAIT 0 PIN 0
       WAIT 0 PIN 1
 loop:
