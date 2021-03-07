@@ -34,10 +34,10 @@ static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint i
 .program referencetimer
       MOV X OSR
       WAIT 0 PIN 0
-      WAIT 0 PIN 1
+      WAIT 1 PIN 0
 loop:
       JMP X-- loop
-      SET PINS 0
+      SET PINS 1
       MOV X ~NULL
       JMP next
 isOne:
@@ -52,7 +52,7 @@ isDone:
 .wrap
       
 done:
-      IN X 32
+      MOV ISR ~X
       PUSH
 end:
       JMP end
