@@ -39,7 +39,8 @@ int main() {
   sleep_ms(1000);
   tud_cdc_set_wanted_char('\0');
   
-  float freq = 50.8f;
+  float freq = 50.2f;
+  //float freq = 50.8f;
   createSquareWave(freq);
 
   PIO pio = pio0;
