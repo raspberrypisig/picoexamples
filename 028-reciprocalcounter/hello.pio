@@ -33,7 +33,22 @@ static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint i
 loop:
     JMP X-- loop
     SET PINS 1
-    
+MOV X ~NULL
+      JMP next
+isOne:
+      JMP X-- next
+next:
+      JMP PIN isOne
+
+.wrap_target
+      JMP X-- isDone
+isDone:
+      JMP PIN done
+.wrap
+      
+done:
+      MOV ISR ~X
+      PUSH    
 end:
       JMP end
 
@@ -46,6 +61,7 @@ static inline void referencetimer_program_init(PIO pio, uint sm, uint offset, ui
     //pio_sm_set_consecutive_pindirs(pio, sm, set_pin, 1, true);
     sm_config_set_in_pins(&c, in_pin);
     sm_config_set_set_pins(&c, set_pin, 1);
+    sm_config_set_jmp_pin(&c, in_pin);
     pio_sm_init(pio, sm, offset, &c);
 }
 %}

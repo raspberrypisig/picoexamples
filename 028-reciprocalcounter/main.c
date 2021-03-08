@@ -65,10 +65,14 @@ int main() {
   pio_enable_sm_mask_in_sync(pio, 3);
 
   //sleep_ms(3000);
-  uint32_t num = pio_sm_get_blocking(pio, sm0);
-  printf("Num: %u\n", num);
-  //uint32_t num2 = pio_sm_get_blocking(pio, sm1);
-  //printf("Num2: %d\n", num2);
+  uint32_t countedges = pio_sm_get_blocking(pio, sm0);
+  printf("Count edges: %u\n", countedges);
+  uint32_t extrapulsesreference = pio_sm_get_blocking(pio, sm1);
+  //printf("Extra raw: %d\n", extrapulsesreference);
+  uint32_t totalpulsesreference = REFERENCE_FREQ + 2*extrapulsesreference;
+  //printf("Extra ref counts: %d\n", totalpulsesreference);
+  float freqcounter = (countedges + 1) * ((1.f * REFERENCE_FREQ)/totalpulsesreference);
+  printf("Final freq: %f\n", freqcounter);
 
   while(true) {
     tight_loop_contents();
