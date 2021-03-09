@@ -48,7 +48,8 @@ isDone:
       
 done:
       MOV ISR ~X
-      PUSH    
+      PUSH   
+      SET PINS 0 
 end:
       JMP end
 

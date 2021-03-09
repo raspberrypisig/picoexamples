@@ -72,13 +72,14 @@ static const uint16_t referencetimer_program_instructions[] = {
             //     .wrap
     0xa0c9, // 10: mov    isr, !x                    
     0x8020, // 11: push   block                      
-    0x000c, // 12: jmp    12                         
+    0xe000, // 12: set    pins, 0                    
+    0x000d, // 13: jmp    13                         
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program referencetimer_program = {
     .instructions = referencetimer_program_instructions,
-    .length = 13,
+    .length = 14,
     .origin = -1,
 };
 
