@@ -1,0 +1,71 @@
+.program countedges
+;NOP
+; X=2^32-1
+MOV X ~NULL [1]
+loop:
+    WAIT 0 PIN 0
+    WAIT 1 PIN 0
+    JMP PIN done
+    JMP X-- loop
+done:
+    MOV ISR ~X
+    PUSH
+
+
+% c-sdk {
+static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint in_pin, uint jmp_pin) {
+    pio_sm_config c = countedges_program_get_default_config(offset);
+
+    sm_config_set_in_pins(&c, in_pin);
+    sm_config_set_jmp_pin(&c, jmp_pin);
+    
+    
+    // Load our configuration, and jump to the start of the program
+    pio_sm_init(pio, sm, offset, &c);
+    // Set the state machine running
+    //pio_sm_set_enabled(pio, sm, true);
+}
+%}
+
+.program referencetimer
+    PULL
+    MOV X OSR
+    WAIT 0 PIN 0
+    WAIT 1 PIN 0
+loop:
+    JMP X-- loop
+    SET PINS 1
+MOV X ~NULL
+      JMP next
+isOne:
+      JMP X-- next
+next:
+      JMP PIN isOne
+
+.wrap_target
+      JMP X-- isDone
+isDone:
+      JMP PIN done
+.wrap
+      
+done:
+      MOV ISR ~X
+      PUSH   
+      SET PINS 0 
+end:
+      JMP end
+
+% c-sdk {
+static inline void referencetimer_program_init(PIO pio, uint sm, uint offset, uint in_pin, uint set_pin) {
+    pio_gpio_init(pio, set_pin);
+    pio_sm_set_consecutive_pindirs(pio, sm, set_pin, 1, true);
+    pio_sm_config c = referencetimer_program_get_default_config(offset);
+    //sm_config_set_out_shift(&c, false, true, 32);
+    //pio_sm_set_consecutive_pindirs(pio, sm, set_pin, 1, true);
+    sm_config_set_in_pins(&c, in_pin);
+    sm_config_set_set_pins(&c, set_pin, 1);
+    sm_config_set_jmp_pin(&c, in_pin);
+    pio_sm_init(pio, sm, offset, &c);
+}
+%}
+
