@@ -35,8 +35,8 @@ static inline void countedges_program_init(PIO pio, uint sm, uint offset, uint i
 loop:
     JMP X-- loop
     SET PINS 1
-MOV X ~NULL
-      JMP next
+    MOV X ~NULL
+    JMP next
 isOne:
       JMP X-- next
 next:
