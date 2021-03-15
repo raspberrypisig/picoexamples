@@ -1,0 +1,36 @@
+.program waitforirq
+    WAIT 1 IRQ 7
+    SET X 21
+    MOV ISR X
+    PUSH
+end:
+    JMP end
+
+% c-sdk {
+static inline void waitforirq_program_init(PIO pio, uint sm, uint offset) {
+    pio_sm_config c = waitforirq_program_get_default_config(offset);
+
+    //sm_config_set_in_pins(&c, in_pin);
+    //sm_config_set_jmp_pin(&c, jmp_pin);
+    
+    
+    // Load our configuration, and jump to the start of the program
+    pio_sm_init(pio, sm, offset, &c);
+    // Set the state machine running
+    //pio_sm_set_enabled(pio, sm, true);
+}
+%}
+
+.program raiseirq
+    NOP [30]
+    IRQ SET 7
+end:
+    JMP end
+
+% c-sdk {
+static inline void raiseirq_program_init(PIO pio, uint sm, uint offset) {
+    pio_sm_config c = waitforirq_program_get_default_config(offset);
+    pio_sm_init(pio, sm, offset, &c);
+}
+%}
+
