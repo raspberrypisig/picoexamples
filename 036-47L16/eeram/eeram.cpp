@@ -7,6 +7,12 @@ void EERAM::begin(uint8_t A2, uint8_t A1, i2c_inst_t *obj) {
 	config.sram_register = 0x50 | mask;
 	config.control_register = 0x18 | mask;
 
+    i2c_init(config.i2c_obj, 100 * 1000);
+    gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
+    gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
+    gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
+    gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
+
 	setAutoStore(true);
 }
 
